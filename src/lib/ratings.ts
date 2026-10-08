@@ -201,10 +201,10 @@ enum RatingSystem {
 // Enums should be what get displayed, perhaps with some uniform processing
 // that lets us avoid redundancy in our representation (eg S -> S-Tier). If there
 // are spaces in the text we want to display, then we use an internal kebab case
-// value (which corresponds to the file name) and we use ratingInfos.enumLabels
+// value (which corresponds to the file name) and we use RATING_INFOS.enumLabels
 // to hold the labels with strings.
-const ratingTypes = {
-  [RatingSystem.Stars]: numeric(0, 5, 0.5),
+const RATING_TYPES = {
+  [RatingSystem.Stars]: numeric(0.5, 5, 0.5),
   [RatingSystem.OneToTen]: numeric(1, 10, 1),
   [RatingSystem.TenPointScale]: numeric(0, 10, 0.1),
   [RatingSystem.Percentage]: numeric(0, 100, 1),
@@ -550,7 +550,7 @@ type TypeOf<T extends RatingType> =
           ? { [K in keyof Fields]: TypeOf<Fields[K]> }
           : never;
 
-type RatingTypeOf<S extends RatingSystem> = (typeof ratingTypes)[S];
+type RatingTypeOf<S extends RatingSystem> = (typeof RATING_TYPES)[S];
 type ValueFor<S extends RatingSystem> = TypeOf<RatingTypeOf<S>>;
 type RatingFor<S extends RatingSystem> = { system: S; value: ValueFor<S> };
 type Rating = { [S in RatingSystem]: RatingFor<S> }[RatingSystem];
@@ -575,7 +575,7 @@ type InfoFor<S extends RatingSystem> = {
       : { fieldLabels: { [K in keyof Fields]: string } }
     : {});
 
-const ratingInfos: {
+const RATING_INFOS: {
   [S in RatingSystem]: InfoFor<S>;
 } = {
   [RatingSystem.Stars]: { label: "Stars", exampleValue: 3.5, enumInput: true },
@@ -848,12 +848,5 @@ const ratingInfos: {
   [RatingSystem.Hdi]: { label: "Human Development Index", exampleValue: 0.64 },
 };
 
-export { ratingTypes, ratingInfos };
-export type {
-  RatingSystem,
-  RatingType,
-  Rating,
-  RatingFor,
-  TypeOf,
-  RatingTypeOf,
-};
+export { RATING_TYPES, RATING_INFOS, RatingSystem };
+export type { RatingType, Rating, RatingFor, TypeOf, RatingTypeOf };

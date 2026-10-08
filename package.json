@@ -6,7 +6,10 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "gen:images": "node scripts/gen-rating-images.mjs",
+    "predev": "npm run gen:images",
+    "prebuild": "npm run gen:images"
   },
   "dependencies": {
     "next": "16.3.5",
